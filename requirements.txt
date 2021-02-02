@@ -1,0 +1,7 @@
+os
+sys
+
+pygame 1.9.6
+random
+pygame_gui 0.5.7
+sqlite3
