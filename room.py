@@ -286,7 +286,7 @@ class EnemysBoss(pygame.sprite.Sprite):
                                                self.health, 10))
 
     def move(self):  # Функция перемещения Босса
-        global player
+        global player, test2
         if not self.rect.x + self.rect.w // 2 + 10 > player.rect.x + player.rect.w // 2 > self.rect.x + self.rect.w // 2 - 10:
             if self.direction == 'l':
                 self.rect.x -= 2
@@ -296,6 +296,7 @@ class EnemysBoss(pygame.sprite.Sprite):
             self.rect.y -= 2
         if player.rect.y > self.rect.y:
             self.rect.y += 2
+        test2 = 0
 # Класс Босса
 
 
@@ -344,7 +345,7 @@ class Enemys(pygame.sprite.Sprite):
         self.direction = direction
         self.image = load_image('sprites\Enemies' + who, 'stay_' + self.direction + '.png', colorkey=-1)
         self.rect = self.image.get_rect().move(pos_x, pos_y)
-        pygame.time.set_timer(EMEMIES_MOVE, 1)
+        pygame.time.set_timer(EMEMIES_MOVE, 10)
         self.center = self.rect.x + self.rect.w // 2
 
     def update(self):  # Функция поворота мобов
@@ -357,15 +358,16 @@ class Enemys(pygame.sprite.Sprite):
             self.direction = 'r'
 
     def move(self):  # Функция перемешения мобов
-        global player
+        global player, test
         if self.direction == 'l':
-            self.rect.x -= 2
+            self.rect.x -= 1
         else:
-            self.rect.x += 2
+            self.rect.x += 1
         if player.rect.y < self.rect.y:
-            self.rect.y -= 2
+            self.rect.y -= 1
         if player.rect.y > self.rect.y:
-            self.rect.y += 2
+            self.rect.y += 1
+        test = 0
 # Класс мобов
 
 
@@ -658,6 +660,8 @@ kills = CountKills()
 score = Score()
 beforex = 0
 beforey = 0
+test = 0
+test2 = 0
 running = True
 pygame.key.set_repeat(1, 1)
 
@@ -688,10 +692,14 @@ while running:
             if event.type == TIMER_SET:
                 spikes_move = True
             if event.type == BOSSES_MOVE:
-                boss.move()
+                test2 += 1
+                if test2 == 5:
+                    boss.move()
         if event.type == EMEMIES_MOVE:
-            for en in enemy_group:
-                en.move()
+            test += 1
+            if test == 5:
+                for en in enemy_group:
+                    en.move()
         if (event.type == pygame.USEREVENT and event.user_type == pygame_gui.UI_BUTTON_PRESSED and
                 event.ui_element == btn_save):
             save_result_in_bd()
