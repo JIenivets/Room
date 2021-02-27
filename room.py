@@ -557,7 +557,7 @@ def generate_level(level):
 
 
 def game_draw():
-    global kills_number, spawn_boss, boss
+    global kills_number, spawn_boss, boss, test2, test
     tiles_group.draw(screen)
     fireBoll_group.draw(screen)
     enemy_group.draw(screen)
@@ -568,6 +568,7 @@ def game_draw():
         for pos in tiles_group:
             if pos.type == 'spawn_boss_plase':
                 boss = EnemysBoss(pos.rect.x + randint(-30, 30), pos.rect.y + randint(-40, 40))
+        test2 = 0
         spawn_boss = True
     spikes_group.draw(screen)
     if spawn_boss:
@@ -586,6 +587,7 @@ def game_draw():
     screen.blit(score.text_b, (451, 4))
     screen.blit(score.text, (450, 3))
     if len(enemy_group) == 0:
+        test = 0
         spawn_enemis()
     player.player_health()
     player.updete()
@@ -697,7 +699,7 @@ while running:
                     boss.move()
         if event.type == EMEMIES_MOVE:
             test += 1
-            if test == 5:
+            if test == 2:
                 for en in enemy_group:
                     en.move()
         if (event.type == pygame.USEREVENT and event.user_type == pygame_gui.UI_BUTTON_PRESSED and
@@ -718,8 +720,9 @@ while running:
     if not over:
             game_draw()
     else:
-            screen.blit(game_over_fon, (0, 0))
-            restart_game()
+        test2, test = 0, 0
+        screen.blit(game_over_fon, (0, 0))
+        restart_game()
     if result:
         pygame.mouse.set_visible(True)
         save_menu()
